@@ -3,6 +3,8 @@
  */
 var a_cards = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-anchor","fa-leaf","fa-bicycle","fa-diamond","fa-bomb","fa-leaf","fa-bomb","fa-bolt","fa-bicycle","fa-paper-plane-o","fa-cube"];
 var a_cards_opened = [];
+var i = 0;
+var first_card = "";
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -47,23 +49,30 @@ document.querySelector(".deck").addEventListener('click',function(evt){
 		var card_selected = evt.target.firstChild.className;
 		show_card(evt);
 		// push the card into array of opened card
-		if (a_cards_opened.length === 0) 
+		if (a_cards_opened.length === i) 
 		{
 			a_cards_opened.push(card_selected);
+			first_card = evt;
+			console.log(first_card);
 		}
 		else
 		{
 			// Compare the new card with old card
-			if (a_cards_opened[0] === card_selected) // Cards match
+			if (a_cards_opened[i] === card_selected) // Cards match
 			{
 				match_card(evt);
+				match_card(first_card);
+				i++;
+			}
+			else // Cards do not match
+			{
+				setTimeout(function(){
+					hide_card(evt);
+					hide_card(first_card);
+				},500);
+				i=0;
 				a_cards_opened = [];
 			}
-			//else // Cards do not match
-			//{
-				//console.log("Im here");
-				//setTimeout(hide_card(evt),30000);
-			//}
 		}
 	}
 	else
