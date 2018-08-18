@@ -9,7 +9,7 @@ var cards = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
- cards.forEach(function(card){
+ shuffle(cards).forEach(function(card){
 	document.querySelector(".deck").insertAdjacentHTML('beforeend','<li class="card"><i class="fa '+card+'"></i></li>'); 
  });
 
