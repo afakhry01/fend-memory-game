@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-
+var cards = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-anchor","fa-leaf","fa-bicycle","fa-diamond","fa-bomb","fa-leaf","fa-bomb","fa-bolt","fa-bicycle","fa-paper-plane-o","fa-cube"];
 
 /*
  * Display the cards on the page
@@ -9,6 +9,9 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+ cards.forEach(function(card){
+	document.querySelector(".deck").insertAdjacentHTML('beforeend','<li class="card"><i class="fa '+card+'"></i></li>'); 
+ });
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
