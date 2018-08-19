@@ -1,5 +1,7 @@
 /*
- * Create a list that holds all of your cards
+ **********************
+ ** Global variables **
+ **********************
  */
 var a_cards = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-anchor","fa-leaf","fa-bicycle","fa-diamond","fa-bomb","fa-leaf","fa-bomb","fa-bolt","fa-bicycle","fa-paper-plane-o","fa-cube"];
 var previous_card = "";
@@ -13,45 +15,29 @@ var timer;
 var modal = "";
 var win_counter = 0;
 
-// Start timer
+/*
+ ********************
+ ** Game Algorithm **
+ ********************
+ * start the game timer
+ * shuffle the cards
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol
+ *  - check a switch value, if it is true: set previous card value, if false: check current card with previous card
+ *    + if the cards do match, lock the cards in the open position 
+ *    + if the cards do not match, turn on the switch and hide the card's symbol 
+ *    + increment the move counter and display it on the page 
+ *    + if all cards have matched, display a message with the final score
+ */
+ 
+ // Start timer (counter)
 start_timer();
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
- shuffle(a_cards).forEach(function(card){
+//Shuffle and display cards
+shuffle(a_cards).forEach(function(card){
 	document.querySelector(".deck").insertAdjacentHTML('beforeend','<li class="card"><i class="fa '+card+'"></i></li>'); 
  });
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+ // Start listening to clicks on cards
 document.querySelector(".deck").addEventListener('click',function(current_card){
 	// Filter only clicks on cards
 	if (current_card.target.className == "card") 
@@ -95,22 +81,44 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 });
 
 /*
-* A function to display the card's symbol
-*/
+ ***************
+ ** Functions **
+ ***************
+ */
+ 
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+// A function to display the card's symbol
 function show(elem) {
 	elem.target.className = "card open show";
 }
 
+// A function to display two matching cards
 function match(elem1,elem2) {
 	elem1.target.className = "card match";
 	elem2.target.className = "card match";
 }
 
+// A function to hide two mismatching cards
 function hide(elem1,elem2) {
 	elem1.target.className = "card";
 	elem2.target.className = "card";
 }
-  
+
+// A function to start game timer  
 function start_timer() {
 	timer = window.setInterval(function() {
 	secs++;
@@ -123,9 +131,7 @@ function start_timer() {
 	}, 1000);
 }
 
-/*
-* A function to reset the game
-*/
+// A function to reset the game
 function reset_game(){
 	// Remove cards
 	document.querySelectorAll(".card").forEach(function(card){
@@ -152,16 +158,12 @@ function reset_game(){
 	win_counter = 0;
 }
 
-/*
-* A function to set the number of moves
-*/
+// A function to set the number of moves
 function set_moves(nmbr){
 	document.querySelector(".moves").innerHTML = nmbr;
 }
 
-/*
-* A function to set the level
-*/
+// A function to set the level
 function set_level(nmbr){
 	if (nmbr % 11 == 0)
 	{
@@ -180,47 +182,40 @@ function set_level(nmbr){
 	}
 }
 
+// A function to open modal message
+// Source: W3Schools
 function open_modal(){
-	/* Source: W3Schools */
 	// Get the modal
 	modal = document.getElementById('myModal');
-	
 	// Stop timer
 	clearInterval(timer);
-	
 	// Add modal message
 	document.querySelector(".modal-content").insertAdjacentHTML('beforeend','<p class="message">It took you '+mins+' minutes and '+secs+' seconds to complete the game with a rating of '+(6-nmbr_stars)+'/5.</p>');
 	document.querySelector(".modal-content").insertAdjacentHTML('beforeend','<div role="button" class="Btn" onclick="play_again()">Play Again</button>');
-	
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
-
 	// When the user clicks on <span> (x), close the modal
 	span.onclick = function() {
 		modal.style.display = "none";
 	}
-
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 		if (event.target == modal) {
 			modal.style.display = "none";
 		}
 	}
-	
 	// Show the modal
 	modal.style.display = "block";
 }
 
+// Play again button function
 function play_again(){
 	// Hide the modal
 	modal.style.display = "none";
-	
 	// Reset the game
 	reset_game();
-	
 	// Restart timer
 	start_timer();
-	
 	// Reset modal
 	document.querySelector(".message").remove();
 	document.querySelector(".Btn").remove();
