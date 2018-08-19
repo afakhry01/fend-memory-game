@@ -117,16 +117,39 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
    */
    
  function reset_game(){
-	 console.log("Reset me please")
+	// Remove cards
+	document.querySelectorAll(".card").forEach(function(card){
+		card.remove();
+	 });
+	// Add new shuffled cards
+	shuffle(a_cards).forEach(function(card){
+		document.querySelector(".deck").insertAdjacentHTML('beforeend','<li class="card"><i class="fa '+card+'"></i></li>'); 
+	}); 
+	// Reset the stars
+	document.querySelectorAll(".hide").forEach(function(star){
+		star.classList.remove("hide");
+	});
+	// Reset the timer
+	secs = 0;
+	mins = 0;
+	// Reset the number of moves
+	nmbr_moves = 0;
+	set_moves(nmbr_moves);
+	// Reset algorithm
+	card_switch = true;
+	
  }
  
 	/*
-	* A function to reset the game
+	* A function to set the number of moves
 	*/
  function set_moves(nmbr){
 	 document.querySelector(".moves").innerHTML = nmbr;
  }
  
+ 	/*
+	* A function to set the level
+	*/
  function set_level(nmbr){
 	 if (nmbr % 7 == 0)
 	{
