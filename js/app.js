@@ -5,6 +5,7 @@ var a_cards = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","
 var previous_card = "";
 var previous_card_identifier = "";
 var card_switch = true;
+var nmbr_moves = 0;
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -48,6 +49,8 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 		// Identify selected card
 		var current_card_identifier = current_card.target.firstChild.className;
 		show(current_card);
+		// Increment number of moves
+		set_moves(++nmbr_moves);
 		// push the card into array of opened card
 		if (card_switch) 
 		{
@@ -81,7 +84,6 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
   */
   function show(elem) {
 	  elem.target.className = "card open show";
-	  //elem.classList.add("open");
   }
   
   function match(elem1,elem2) {
@@ -94,3 +96,17 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 	  elem2.target.className = "card";
   }
   
+  /*
+   * A function to reset the game
+   */
+   
+ function reset_game(){
+	 console.log("Reset me please")
+ }
+ 
+	/*
+	* A function to reset the game
+	*/
+ function set_moves(nmbr){
+	 document.querySelector(".moves").innerHTML = nmbr;
+ }
