@@ -9,17 +9,12 @@ var nmbr_moves = 0;
 var nmbr_stars = 1;
 var mins = 0;
 var secs = 0;
+var timer;
+var modal = "";
+var win_counter = 0;
 
-// Timer
-window.setInterval(function() {
-	secs++;
-	if (secs > 59) {
-		mins++;
-		secs = 0;
-	}
-	document.querySelector(".seconds").innerHTML = ("0" + secs).slice(-2);
-	document.querySelector(".minutes").innerHTML = ("0" + mins).slice(-2);
-}, 1000);
+// Start timer
+start_timer();
 
 /*
  * Display the cards on the page
@@ -81,6 +76,9 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 			{
 				match(current_card,previous_card);
 				card_switch = true;
+				if (++win_counter === 8) {
+					open_modal();
+				}
 			}
 			else // Cards do not match
 			{
@@ -95,39 +93,51 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 	{
 	}
 });
- /*
-  * A function to display the card's symbol
-  */
-  function show(elem) {
-	  elem.target.className = "card open show";
-  }
+
+/*
+* A function to display the card's symbol
+*/
+function show(elem) {
+	elem.target.className = "card open show";
+}
+
+function match(elem1,elem2) {
+	elem1.target.className = "card match";
+	elem2.target.className = "card match";
+}
+
+function hide(elem1,elem2) {
+	elem1.target.className = "card";
+	elem2.target.className = "card";
+}
   
-  function match(elem1,elem2) {
-	  elem1.target.className = "card match";
-	  elem2.target.className = "card match";
-  }
-  
-  function hide(elem1,elem2) {
-	  elem1.target.className = "card";
-	  elem2.target.className = "card";
-  }
-  
-  /*
-   * A function to reset the game
-   */
-   
- function reset_game(){
+function start_timer() {
+	timer = window.setInterval(function() {
+	secs++;
+	if (secs > 59) {
+		mins++;
+		secs = 0;
+	}
+	document.querySelector(".seconds").innerHTML = ("0" + secs).slice(-2);
+	document.querySelector(".minutes").innerHTML = ("0" + mins).slice(-2);
+	}, 1000);
+}
+
+/*
+* A function to reset the game
+*/
+function reset_game(){
 	// Remove cards
 	document.querySelectorAll(".card").forEach(function(card){
-		card.remove();
-	 });
+	card.remove();
+	});
 	// Add new shuffled cards
 	shuffle(a_cards).forEach(function(card){
-		document.querySelector(".deck").insertAdjacentHTML('beforeend','<li class="card"><i class="fa '+card+'"></i></li>'); 
+	document.querySelector(".deck").insertAdjacentHTML('beforeend','<li class="card"><i class="fa '+card+'"></i></li>'); 
 	}); 
 	// Reset the stars
 	document.querySelectorAll(".hide").forEach(function(star){
-		star.classList.remove("hide");
+	star.classList.remove("hide");
 	});
 	// Reset the timer
 	secs = 0;
@@ -137,34 +147,78 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 	set_moves(nmbr_moves);
 	// Reset algorithm
 	card_switch = true;
-	
- }
- 
-	/*
-	* A function to set the number of moves
-	*/
- function set_moves(nmbr){
-	 document.querySelector(".moves").innerHTML = nmbr;
- }
- 
- 	/*
-	* A function to set the level
-	*/
- function set_level(nmbr){
-	 if (nmbr % 7 == 0)
+}
+
+/*
+* A function to set the number of moves
+*/
+function set_moves(nmbr){
+	document.querySelector(".moves").innerHTML = nmbr;
+}
+
+/*
+* A function to set the level
+*/
+function set_level(nmbr){
+	if (nmbr % 11 == 0)
 	{
-		 var star = document.querySelectorAll(".fa.fa-star");
-		 if (star.length- nmbr_stars > 0) 
-		 {
+	var star = document.querySelectorAll(".fa.fa-star");
+		if (star.length- nmbr_stars > 0) 
+		{
 			star[star.length- nmbr_stars].classList.add("hide");
 			nmbr_stars++;
-		 }
-		 else
-		 {
-		 }
-		 
+		}
+		else
+		{
+		} 
 	}
 	else
 	{
 	}
- }
+}
+
+function open_modal(){
+	/* Source: W3Schools */
+	// Get the modal
+	modal = document.getElementById('myModal');
+	
+	// Stop timer
+	clearInterval(timer);
+	
+	// Add modal message
+	document.querySelector(".modal-content").insertAdjacentHTML('beforeend','<p class="message">It took you '+mins+' minutes and '+secs+' seconds to complete the game with a rating of '+(6-nmbr_stars)+'/5.</p>');
+	document.querySelector(".modal-content").insertAdjacentHTML('beforeend','<button class="Btn" onclick="play_again()">Play Again</button>');
+	
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+		modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+	
+	// Show the modal
+	modal.style.display = "block";
+}
+
+function play_again(){
+	// Hide the modal
+	modal.style.display = "none";
+	
+	// Reset the game
+	reset_game();
+	
+	// Restart timer
+	start_timer();
+	
+	// Reset modal
+	document.querySelector(".message").remove();
+	document.querySelector(".Btn").remove();
+}
