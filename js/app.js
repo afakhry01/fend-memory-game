@@ -2,9 +2,9 @@
  * Create a list that holds all of your cards
  */
 var a_cards = ["fa-diamond","fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-anchor","fa-leaf","fa-bicycle","fa-diamond","fa-bomb","fa-leaf","fa-bomb","fa-bolt","fa-bicycle","fa-paper-plane-o","fa-cube"];
-var a_cards_opened = [];
-var i = 0;
-var first_card = "";
+var previous_card = "";
+var previous_card_identifier = "";
+var card_switch = true;
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -41,37 +41,34 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-document.querySelector(".deck").addEventListener('click',function(evt){
+document.querySelector(".deck").addEventListener('click',function(current_card){
 	// Filter only clicks on cards
-	if (evt.target.className == "card") 
+	if (current_card.target.className == "card") 
 	{
 		// Identify selected card
-		var card_selected = evt.target.firstChild.className;
-		show_card(evt);
+		var current_card_identifier = current_card.target.firstChild.className;
+		show(current_card);
 		// push the card into array of opened card
-		if (a_cards_opened.length === i) 
+		if (card_switch) 
 		{
-			a_cards_opened.push(card_selected);
-			first_card = evt;
-			console.log(first_card);
+			previous_card = current_card;
+			previous_card_identifier = previous_card.target.firstChild.className;
+			card_switch = false;
 		}
 		else
 		{
 			// Compare the new card with old card
-			if (a_cards_opened[i] === card_selected) // Cards match
+			if (previous_card_identifier === current_card_identifier) // Cards match
 			{
-				match_card(evt);
-				match_card(first_card);
-				i++;
+				match(current_card,previous_card);
+				card_switch = true;
 			}
 			else // Cards do not match
 			{
 				setTimeout(function(){
-					hide_card(evt);
-					hide_card(first_card);
+					hide(current_card,previous_card);
 				},500);
-				i=0;
-				a_cards_opened = [];
+				card_switch = true;
 			}
 		}
 	}
@@ -82,16 +79,18 @@ document.querySelector(".deck").addEventListener('click',function(evt){
  /*
   * A function to display the card's symbol
   */
-  function show_card(elem) {
+  function show(elem) {
 	  elem.target.className = "card open show";
 	  //elem.classList.add("open");
   }
   
-  function match_card(elem) {
-	  elem.target.className = "card match";
+  function match(elem1,elem2) {
+	  elem1.target.className = "card match";
+	  elem2.target.className = "card match";
   }
   
-  function hide_card(elem) {
-	  elem.target.className = "card";
+  function hide(elem1,elem2) {
+	  elem1.target.className = "card";
+	  elem2.target.className = "card";
   }
   
