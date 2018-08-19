@@ -5,7 +5,7 @@ A game to be submitted to Udacity as a fullfilment of Front End Web Development 
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Development Environment](#Development Environment)
+* [Development Environment](#DevelopmentEnvironment)
 * [Compiler](#Compiler)
 * [License](#License)
 
