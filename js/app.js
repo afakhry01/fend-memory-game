@@ -138,6 +138,7 @@ function reset_game(){
 	// Reset the stars
 	document.querySelectorAll(".hide").forEach(function(star){
 	star.classList.remove("hide");
+	nmbr_stars = 1;
 	});
 	// Reset the timer
 	secs = 0;
