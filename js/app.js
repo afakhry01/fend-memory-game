@@ -6,6 +6,21 @@ var previous_card = "";
 var previous_card_identifier = "";
 var card_switch = true;
 var nmbr_moves = 0;
+var nmbr_stars = 1;
+var mins = 0;
+var secs = 0;
+
+// Timer
+window.setInterval(function() {
+	secs++;
+	if (secs > 59) {
+		mins++;
+		secs = 0;
+	}
+	document.querySelector(".seconds").innerHTML = ("0" + secs).slice(-2);
+	document.querySelector(".minutes").innerHTML = ("0" + mins).slice(-2);
+}, 1000);
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -51,6 +66,7 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 		show(current_card);
 		// Increment number of moves
 		set_moves(++nmbr_moves);
+		set_level(nmbr_moves);
 		// push the card into array of opened card
 		if (card_switch) 
 		{
@@ -109,4 +125,23 @@ document.querySelector(".deck").addEventListener('click',function(current_card){
 	*/
  function set_moves(nmbr){
 	 document.querySelector(".moves").innerHTML = nmbr;
+ }
+ 
+ function set_level(nmbr){
+	 if (nmbr % 7 == 0)
+	{
+		 var star = document.querySelectorAll(".fa.fa-star");
+		 if (star.length- nmbr_stars > 0) 
+		 {
+			star[star.length- nmbr_stars].classList.add("hide");
+			nmbr_stars++;
+		 }
+		 else
+		 {
+		 }
+		 
+	}
+	else
+	{
+	}
  }
