@@ -147,6 +147,8 @@ function reset_game(){
 	set_moves(nmbr_moves);
 	// Reset algorithm
 	card_switch = true;
+	// Reset win counter
+	win_counter = 0;
 }
 
 /*
@@ -187,7 +189,7 @@ function open_modal(){
 	
 	// Add modal message
 	document.querySelector(".modal-content").insertAdjacentHTML('beforeend','<p class="message">It took you '+mins+' minutes and '+secs+' seconds to complete the game with a rating of '+(6-nmbr_stars)+'/5.</p>');
-	document.querySelector(".modal-content").insertAdjacentHTML('beforeend','<button class="Btn" onclick="play_again()">Play Again</button>');
+	document.querySelector(".modal-content").insertAdjacentHTML('beforeend','<div role="button" class="Btn" onclick="play_again()">Play Again</button>');
 	
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
