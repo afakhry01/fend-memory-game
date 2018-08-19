@@ -1,20 +1,31 @@
 # Memory Game Project
 
+A game to be submitted to Udacity as a fullfilment of Front End Web Development nanodegree as a part of Google Developer Scholarship. Developer wrote the Javascript only while Udaity generously wrote the HTML and CSS.
+
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Development Environment](#Development Environment)
+* [Compiler](#Compiler)
+* [License](#License)
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+1) Download or clone the repository to your development hub
+2) Open index.html using a web browser to view the project
+3) To develop this project, you will be mainly working with the following files:
+	a. index.html
+	b. css/app.css
+	c. js/app.js
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Development Environment
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+This project was fully written using atom with emmet plugin for fast HTML code typing. The version control was maintained using git.
 
-## Contributing
+## Compiler
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Chrome and edge were used to compile this project.
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## License
+
+MIT
